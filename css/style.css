@@ -20,6 +20,11 @@ header {
     display: table-cell;
     vertical-align: middle;
 }
+#startWin {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 footer{
     font-size: 12px;
     margin-top: 20px;
