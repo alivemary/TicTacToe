@@ -32,17 +32,19 @@
            
         switch (turn) {
                 case "HUMAN":
-                    $('button').prop("disabled", false);
+                    
                    
                     break;
                 case "COMPUTER":
-                    $('button').prop("disabled", true);
+                   
                     
                     break;
         }
         $('button').on('click', function () {
+            //human turn
+            var n = Number(this.id.replace( /^\D+/g, ''))-1;
+            if (field.indexOf(' ') === -1 || gameOver || field[n] !== ' ') return;
             if (field.indexOf(' ') !== -1 && !gameOver) {
-                var n = Number(this.id.replace( /^\D+/g, ''))-1;
                 if (field[n] === ' ') {
                     field[n] = simbol;
                     console.log("#field" + n + ">canvas");
@@ -52,7 +54,8 @@
                 console.log(field);
             }
             else gameOver == true;
-
+            //computer turn
+            if (field.indexOf(' ') === -1 || gameOver) return;
             if (field.indexOf(' ') !== -1 && !gameOver) {
                 var m = field.indexOf(' ');
                 field[m] = otherSimbol;
@@ -66,7 +69,7 @@
         
     }
    
-    
+    //choose your side
     $('button').on('click', function () {
         switch (this.id) {
             case 'field10':
