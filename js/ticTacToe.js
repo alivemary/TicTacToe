@@ -27,21 +27,22 @@
         $('#mainWin').removeClass('hidden');
         $('#startWin').addClass('hidden');
         var otherSimbol = (simbol == 'X') ? "O" : "X";
-        var turn = (simbol == 'X') ? "HUMAN" : "COMPUTER";
         $('h3').html("You: " + simbol + " Computer: " + otherSimbol);
-           
-        switch (turn) {
-                case "HUMAN":
-                    
-                   
-                    break;
-                case "COMPUTER":
-                   
-                    
-                    break;
+        
+        function hasWon(player) {
+            var winCombo = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+            for (var i = 0; i < winCombo.length; i++) {
+                
+                if (field[winCombo[i][0]] === player && field[winCombo[i][1]] === player && field[winCombo[i][2]] === player) {
+                    gameOver = true;
+                    $('h3').html(player + " won!");
+                    return true;
+                };
+            }
         }
         $('button').on('click', function () {
             //human turn
+            
             var n = Number(this.id.replace( /^\D+/g, ''))-1;
             if (field.indexOf(' ') === -1 || gameOver || field[n] !== ' ') return;
             if (field.indexOf(' ') !== -1 && !gameOver) {
@@ -54,7 +55,9 @@
                 console.log(field);
             }
             else gameOver == true;
+            if (hasWon(simbol) || hasWon(otherSimbol)) return;
             //computer turn
+            
             if (field.indexOf(' ') === -1 || gameOver) return;
             if (field.indexOf(' ') !== -1 && !gameOver) {
                 var m = field.indexOf(' ');
@@ -64,7 +67,7 @@
                 console.log(field);
             }
             else gameOver == true;
-            
+            if (hasWon(simbol) || hasWon(otherSimbol)) return;
         });
         
     }
