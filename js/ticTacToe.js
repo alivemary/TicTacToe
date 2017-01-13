@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     var field = [];
-    for (var i = 0; i < 9; i++) field[i] = ' ';
+    
     var gameOver = false;
 
     drawX("#field10>canvas");
@@ -26,7 +26,15 @@
     function game(simbol) {
         $('#mainWin').removeClass('hidden');
         $('#startWin').addClass('hidden');
-
+        $('#again').addClass('hidden');
+        for (var i = 0; i < 9; i++) field[i] = ' ';
+        $('.btn-group canvas').each(function (idx, item) {
+            var context = item.getContext("2d");
+            context.clearRect(0, 0, item.width, item.height);
+            context.beginPath();
+            
+        });
+        console.log(field);
         function Player(type, simbol) {
             this.type = type;
             this.simbol = simbol;
@@ -44,6 +52,7 @@
                 if (this.hasWon(field)) {
                     gameOver = true;
                     $('h3').html(this.simbol + " won!");
+                    $('#again').removeClass('hidden');
                     return true;
                 }
                 return false;
@@ -59,6 +68,10 @@
         else {
             computer = new Player("COMPUTER", "X");
             opponent = new Player("HUMAN", "O");
+            //computer goes first
+            var m = getMinMaxPos(field, computer);
+            field[m] = computer.simbol;
+            drawX("#field" + (m + 1) + ">canvas");
         }
         
         $('h3').html("You: " + opponent.simbol + " Computer: " + computer.simbol);
@@ -147,7 +160,7 @@
             }
             for (var i = 0; i < possibleMoves.length; i++) {
                 nFuild[possibleMoves[i].pos] = player.simbol;
-                possibleMoves[i].score = minimax(2, nFuild, opponent, -100000, 100000);
+                possibleMoves[i].score = minimax(3, nFuild, opponent, -100000, 100000);
                 nFuild[possibleMoves[i].pos] = " ";
             }
             var max = 0;
@@ -209,7 +222,12 @@
                     game("O");
                     break;
                 }
-           
+            case 'again':
+                {
+                    $('#mainWin').addClass('hidden');
+                    $('#startWin').removeClass('hidden');
+                    gameOver = false;
+                }
        }
     });
     $('#mainWin').addClass('hidden');
