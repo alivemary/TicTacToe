@@ -221,6 +221,7 @@
                 {
                     $('#mainWin').addClass('hidden');
                     $('#startWin').removeClass('hidden');
+                    $('h3').html("Would you like play X or O?");
                     gameOver = false;
                 }
        }
