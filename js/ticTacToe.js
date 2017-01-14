@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     var field = [];
-    
+    var opponent, computer;
     var gameOver = false;
 
     drawX("#field10>canvas");
@@ -34,7 +34,6 @@
             context.beginPath();
             
         });
-        console.log(field);
         function Player(type, simbol) {
             this.type = type;
             this.simbol = simbol;
@@ -42,7 +41,7 @@
                 var winCombo = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
                 for (var i = 0; i < winCombo.length; i++) {
                     if (field[winCombo[i][0]] === this.simbol && field[winCombo[i][1]] === this.simbol && field[winCombo[i][2]] === this.simbol) {
-                       
+                        //$('#field'+winCombo[i][0]+', #field'+winCombo[i][1]+', #field'+winCombo[i][2]).css('background-color', 'red');
                         return true;
                     };
                 }
@@ -59,7 +58,7 @@
             }
         }
 
-        var opponent, computer;
+        
 
         if (simbol == 'X') {
             opponent = new Player("HUMAN", "X");
@@ -113,8 +112,7 @@
             });
             return score;
         }
-        //function is not ready yet
-       
+             
         function minimax(level, field, player, alpha, beta) {
             var nFuild = field.slice();
             var possibleMoves = [];
@@ -173,38 +171,35 @@
         }
         $('button').on('click', function () {
             //human turn
-            
             var n = Number(this.id.replace( /^\D+/g, ''))-1;
-            if (field.indexOf(' ') === -1 || gameOver || field[n] !== ' ') return;
-            if (field.indexOf(' ') !== -1 && !gameOver) {
+            if (gameOver || field[n] !== ' ') return;
+            if (!gameOver) {
                 if (field[n] === ' ') {
                     field[n] = opponent.simbol;
-                    console.log("#field" + n + ">canvas");
                     if (opponent.simbol == 'X') drawX("#field" + (n + 1) + ">canvas");
                     if (opponent.simbol == 'O') drawO("#field" + (n + 1) + ">canvas");
                 }
-                console.log(field);
-            }
-            else {
-                gameOver == true;
-                
             }
             if (opponent.checkVictory(field)) return;
+            if (field.indexOf(' ') === -1) {
+                $('h3').html("It's a tie!");
+                $('#again').removeClass('hidden');
+                gameOver = true;
+            }
             //computer turn
-            
-            if (field.indexOf(' ') === -1 || gameOver) return;
-            if (field.indexOf(' ') !== -1 && !gameOver) {
+            if (!gameOver) {
                 var m = getMinMaxPos(field, computer);
                 field[m] = computer.simbol;
                 if (computer.simbol == 'X') drawX("#field" + (m + 1) + ">canvas");
                 if (computer.simbol == 'O') drawO("#field" + (m + 1) + ">canvas");
-                console.log(field);
             }
-            else {
-                gameOver == true;
-                
-            }
+            else return;
             if (computer.checkVictory(field)) return;
+            if (field.indexOf(' ') === -1) {
+                $('h3').html("It's a tie!");
+                $('#again').removeClass('hidden');
+                gameOver = true;
+            }
         });
         
     }
