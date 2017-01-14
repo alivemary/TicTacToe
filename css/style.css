@@ -16,6 +16,10 @@ header {
     margin:0px;
     padding: 0px;
 }
+canvas {
+    width: 70px;
+    height: 70px;
+}
 #again {
     width: 100px;
     height:40px;

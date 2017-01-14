@@ -9,18 +9,21 @@
     function drawX(where){
         var ctx = $(where)[0].getContext('2d');
         ctx.beginPath();
-        ctx.moveTo(20, 50);
-        ctx.lineTo(50, 20);
+        ctx.moveTo(70, 120);
+        ctx.lineTo(220, 30);
+        ctx.lineWidth = 5;
         ctx.stroke();
         ctx.beginPath();
-        ctx.moveTo(20, 20);
-        ctx.lineTo(50, 50);
+        ctx.moveTo(70, 30);
+        ctx.lineTo(220, 120);
         ctx.stroke();
     }
     function drawO(where) {
         var ctx = $(where)[0].getContext('2d');
         ctx.beginPath();
-        ctx.arc(35, 35, 20, 0, 2 * Math.PI);
+        ctx.lineWidth = 5;
+        //ctx.arc(145, 75, 50, 0, 2 * Math.PI);
+        ctx.ellipse(145, 75, 80, 50, 0, 0, Math.PI * 2);
         ctx.stroke();
     }
     function game(simbol) {
